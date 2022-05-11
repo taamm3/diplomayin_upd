@@ -6,6 +6,12 @@ vertex::vertex(int n, string str)
 	this->collection = str;
 }
 
+vertex::vertex(int n, int k)
+{
+	this->n = n;
+	this->k = k;
+}
+
 vertex::~vertex() {}
 
 vertex::vertex() {}
@@ -80,8 +86,15 @@ vertex& vertex::operator=(const vertex& v1)
 {
 	if (this != &v1)
 	{
+		int i = 0;
 		n = v1.n;
-		collection = v1.collection;
+		k = v1.k;
+		collection = "";
+		while(i < n)
+		{
+			collection += v1.collection[i];
+			i++;
+		}
 	}
 	return *this;
 }
@@ -103,13 +116,38 @@ vertex vertex::operator+=(const vertex& v1)
 	return *this;
 }
 
-void vertex::operator++()
+void vertex::operator++()  // 0011 0101 1001 0110 1010 1100 \0011
 {
+	static int index1 = n - 1;
+	static int index2 = n - k;
 	int i;
-	for(i = 0; collection[i] == '1'; i++) ;
-	for(; collection[i] == '0'; i++) ;
-	collection[i - 1] = '1';
-	collection[i] = '0';
+	vertex v1(n, k);
+	v1.fillZero(k);
+	if(v1 == *this)
+	{
+		index1 = n - 1;
+		index2 = n - k;
+	}
+	// for(i = 0; collection[i] == '1'; i++) ;
+	// for(; collection[i] == '0'; i++) ;
+	if(index2 == 0)
+	{
+		collection[index1] = '0';
+		index1--;
+		if(index1 > 0)
+		{
+			collection[index1] = '1';
+			collection[index2] = '0';
+			index2 = index1 - k + 1;
+			collection[index2] = '1';
+		}
+	}
+	else if(index2 > 0)
+	{
+		collection[index2 - 1] = '1';
+		collection[index2] = '0';
+		index2--;
+	}
 }
 
 void vertex::fillZero(int k)
@@ -128,6 +166,14 @@ void vertex::fillEnd(int k)
     for (int i = 0; i < k; i++)
         str += '1';
     for (int i = 0; i < n - k; i++)
+        str += '0';
+	collection = str;
+}
+
+void vertex::fillComp()
+{
+	string str = "";
+    for (int i = 0; i < n; i++)
         str += '0';
 	collection = str;
 }
