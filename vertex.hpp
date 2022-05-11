@@ -12,14 +12,12 @@ class vertex
         int flag;
         string collection;
         int n;
-        int k;
     public:
         vertex(int n, string str);
         vertex& operator=(const vertex& v1);
         ~vertex();
         vertex();
         vertex(int n);
-        vertex(int n, int k);
 
         vertex operator+(const vertex& v1);
         vertex operator+=(const vertex& v1);

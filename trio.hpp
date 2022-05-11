@@ -4,6 +4,6 @@
 class trio
 {
     public:
-    vertex v[4];
+    vertex v[3];
     friend ostream& operator<<(ostream& os, const trio& t);
 };
